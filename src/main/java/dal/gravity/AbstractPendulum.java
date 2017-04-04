@@ -41,7 +41,7 @@ public abstract class AbstractPendulum {
 			throw new IllegalArgumentException(
 					"invalid angular displacement: " + inTheta0);
 
-		if (validGC(g.getGravitationalField()))
+		if (validGC(g))
 			this.g = g;
 		else
 			throw new IllegalArgumentException(
@@ -60,8 +60,8 @@ public abstract class AbstractPendulum {
 		return val > 0;
 	}
 
-	private boolean validGC(double val) {
-		return val >= 0;
+	private boolean validGC(GravityModel val) {
+		return val != null && val.getGravitationalField() >= 0;
 	}
 
 	public double getMaxAngularDisplacement() {
