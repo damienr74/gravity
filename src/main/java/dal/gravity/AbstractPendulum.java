@@ -11,9 +11,7 @@ public abstract class AbstractPendulum {
 	 */
 	private double stringLength, pointMass;
 	protected double theta0;
-	protected double g;
-	/** gravitational constant */
-	public static final double EARTH_GRAVITY = 9.80665;
+	protected GravityModel g;
 
 	/**
 	 * Creates a new Pendulum instance using
@@ -23,7 +21,7 @@ public abstract class AbstractPendulum {
 	 * inG: gravitational field value to use
 	 */
 	public AbstractPendulum(double inLength, double inMass, double inTheta0,
-			double inG) {
+			GravityModel g) {
 
 		if (validStringLength(inLength))
 			stringLength = inLength;
@@ -43,11 +41,11 @@ public abstract class AbstractPendulum {
 			throw new IllegalArgumentException(
 					"invalid angular displacement: " + inTheta0);
 
-		if (validGC(inG))
-			g = inG;
+		if (validGC(g.getGravitationalField()))
+			this.g = g;
 		else
 			throw new IllegalArgumentException(
-					"invalid local gravitational field: " + inG);
+					"invalid local gravitational field: " + g.getGravitationalField());
 	}
 
 	private boolean validDisplacement(double val) {
@@ -79,6 +77,10 @@ public abstract class AbstractPendulum {
 	}
 
 	public double getGravitationalField() {
-		return g;
+		return g.getGravitationalField();
+	}
+
+	public void setGravityModel(GravityModel g) {
+		this.g = g;
 	}
 }
